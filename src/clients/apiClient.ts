@@ -21,7 +21,7 @@ export class ApiClient {
     opts?: {
       params?: Record<string, string | number | boolean>
       headers?: Record<string, string>
-    }
+    },
   ): Promise<ApiResult<T>> {
     const res = await this.request.get(path, {
       params: opts?.params,
@@ -37,7 +37,7 @@ export class ApiClient {
     opts?: {
       data?: unknown
       headers?: Record<string, string>
-    }
+    },
   ): Promise<ApiResult<T>> {
     const res = await this.request.post(path, {
       data: opts?.data,

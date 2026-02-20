@@ -20,15 +20,20 @@ function trimToUndefined(value: string | undefined): string | undefined {
   return v.length === 0 ? undefined : v
 }
 
+function assertHttpUrl(name: string, value: string): void {
+  if (!value.startsWith('http://') && !value.startsWith('https://')) {
+    throw new Error(`${name} must start with http/https`)
+  }
+}
+
 export const env = {
   API_BASE_URL: trimToUndefined(process.env.API_BASE_URL) ?? 'https://dummyjson.com',
+  UI_BASE_URL: trimToUndefined(process.env.UI_BASE_URL) ?? 'https://saucedemo.com',
+
   PW_WORKERS: intOrUndefined(process.env.PW_WORKERS),
   PW_RETRIES: intOrUndefined(process.env.PW_RETRIES),
   PW_TIMEOUT_MS: intOrDefault(process.env.PW_TIMEOUT_MS, 30_000),
-  AUTH_USERNAME: trimToUndefined(process.env.AUTH_USERNAME) ?? 'emilys',
-  AUTH_PASSWORD: trimToUndefined(process.env.AUTH_PASSWORD) ?? 'emilyspass'
 } as const
 
-if (!env.API_BASE_URL.startsWith('http')) {
-  throw new Error('API_BASE_URL must start with http/https')
-}
+assertHttpUrl('API_BASE_URL', env.API_BASE_URL)
+assertHttpUrl('UI_BASE_URL', env.UI_BASE_URL)

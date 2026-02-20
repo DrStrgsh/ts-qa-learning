@@ -7,7 +7,7 @@ export const AuthMeSchema = z.object({
   firstName: z.string().optional(),
   lastName: z.string().optional(),
   gender: z.string().optional(),
-  image: z.url().optional()
+  image: z.url().optional(),
 })
 
 export type AuthMe = z.infer<typeof AuthMeSchema>

@@ -1,10 +1,15 @@
-import { test, expect } from '../fixtures/test'
-import { ApiErrorSchema, parseApiError } from '../../src/validations/error.schema'
-import { LoginSuccessSchema, parseLoginSuccess } from '../../src/validations/auth.schema'
 import { testData } from '../../src/testdata'
-import { AuthMeSchema, parseAuthMe } from '../../src/validations/auth.schema'
-import { RefreshSuccessSchema, parseRefreshSuccess } from '../../src/validations/auth.schema'
 import { decodeJwtPayload } from '../../src/utils/jwt'
+import {
+  LoginSuccessSchema,
+  parseLoginSuccess,
+  AuthMeSchema,
+  parseAuthMe,
+  RefreshSuccessSchema,
+  parseRefreshSuccess,
+} from '../../src/validations/auth.schema'
+import { ApiErrorSchema, parseApiError } from '../../src/validations/error.schema'
+import { test, expect } from '../fixtures/test'
 
 async function tryReadJson(res: { json(): Promise<unknown> }): Promise<unknown | undefined> {
   try {
@@ -14,7 +19,10 @@ async function tryReadJson(res: { json(): Promise<unknown> }): Promise<unknown |
   }
 }
 
-test('GET /auth/me returns current user (using worker auth session)', async ({ authed, authSession }) => {
+test('GET /auth/me returns current user (using worker auth session)', async ({
+  authed,
+  authSession,
+}) => {
   const res = await test.step('Call GET /auth/me (authorized)', async () => {
     return authed.get('/auth/me')
   })
@@ -85,7 +93,11 @@ test('POST /auth/login fails for invalid credentials (contract + data)', async (
   })
 })
 
-test('POST /auth/refresh returns new tokens and refreshed accessToken works (flow)', async ({ auth, authSession, request }) => {
+test('POST /auth/refresh returns new tokens and refreshed accessToken works (flow)', async ({
+  auth,
+  authSession,
+  request,
+}) => {
   const prevPayload = decodeJwtPayload(authSession.accessToken)
 
   const { res, body } = await test.step('Call POST /auth/refresh with refreshToken', async () => {

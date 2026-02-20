@@ -1,7 +1,7 @@
-import { test, expect } from '../fixtures/test'
+import { testData } from '../../src/testdata'
 import { assertProductsList } from '../../src/validations/assert'
 import { ProductsListSchema } from '../../src/validations/products.schema'
-import { testData } from '../../src/testdata'
+import { test, expect } from '../fixtures/test'
 
 test('GET /products returns valid contract + data', async ({ products }) => {
   const { res, body } = await test.step('Call GET /products', async () => {
@@ -30,6 +30,7 @@ test('GET /products returns valid contract + data', async ({ products }) => {
 
 test('GET /products pagination contract is stable', async ({ products }) => {
   const limit = testData.products.pageSize
+
   const { res, body } = await test.step('Call GET /products with pagination', async () => {
     return products.list({ limit, skip: 0 })
   })
@@ -53,6 +54,7 @@ test('GET /products pagination contract is stable', async ({ products }) => {
 
 test('GET /products/search returns filtered results', async ({ products }) => {
   const query = testData.products.searchQuery
+
   const { res, body } = await test.step('Call GET /products/search', async () => {
     return products.search(query)
   })

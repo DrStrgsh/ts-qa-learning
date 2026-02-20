@@ -1,8 +1,12 @@
 import { test as base } from '@playwright/test'
-import { ProductsClient } from '../../src/clients/productsClient'
+
 import { AuthClient } from '../../src/clients/authClient'
+import { ProductsClient } from '../../src/clients/productsClient'
 import { env } from '../../src/config/env'
+import { testData } from '../../src/testdata'
+
 import { expect } from './expect'
+
 import type { APIRequestContext } from '@playwright/test'
 
 type AuthSession = {
@@ -12,7 +16,10 @@ type AuthSession = {
 }
 
 export class AuthedApi {
-  constructor(private readonly request: APIRequestContext, private readonly token: string) { }
+  constructor(
+    private readonly request: APIRequestContext,
+    private readonly token: string,
+  ) {}
 
   async get(path: string, params?: Record<string, string | number | boolean>) {
     return this.request.get(path, {
@@ -61,7 +68,13 @@ export const test = base.extend<TestFixtures, WorkerFixture>({
 
       try {
         const authClient = new AuthClient(ctx)
-        const { res, body } = await authClient.login(env.AUTH_USERNAME, env.AUTH_PASSWORD, { expiresInMins: 1 })
+        const { res, body } = await authClient.login(
+          testData.auth.username,
+          testData.auth.password,
+          {
+            expiresInMins: 1,
+          },
+        )
 
         if (res.status() !== 200) {
           throw new Error(`Auth failed during worker setup: ${res.status()}`)

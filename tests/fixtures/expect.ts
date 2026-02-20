@@ -1,12 +1,16 @@
 import { expect as baseExpect } from '@playwright/test'
-import { z } from 'zod'
+
+import type { z } from 'zod'
 
 function formatIssues(error: z.ZodError, limit = 5): string {
-  return error.issues.slice(0, limit).map((i) => {
-    const path = i.path.join('.') || '<root>'
+  return error.issues
+    .slice(0, limit)
+    .map((i) => {
+      const path = i.path.join('.') || '<root>'
 
-    return `${path}: ${i.message}`
-  }).join('\n- ')
+      return `${path}: ${i.message}`
+    })
+    .join('\n- ')
 }
 
 export const expect = baseExpect.extend({
@@ -27,7 +31,7 @@ export const expect = baseExpect.extend({
       pass: false,
       message: () => `Expected value to match ${label}. Issues: ${issues}`,
     }
-  }
+  },
 })
 
 declare global {

@@ -1,4 +1,5 @@
 import { ApiClient } from './apiClient'
+
 import type { LoginResponse } from '../types/auth'
 
 export type RefreshResponse = {
@@ -12,7 +13,7 @@ export class AuthClient extends ApiClient {
       data: {
         username,
         password,
-        ...(opts?.expiresInMins !== undefined ? { expiresInMins: opts.expiresInMins } : {})
+        ...(opts?.expiresInMins !== undefined ? { expiresInMins: opts.expiresInMins } : {}),
       },
     })
   }
@@ -21,8 +22,8 @@ export class AuthClient extends ApiClient {
     return this.post<RefreshResponse>('/auth/refresh', {
       data: {
         ...(refreshToken ? { refreshToken } : {}),
-        ...(opts?.expiresInMins !== undefined ? { expiresInMins: opts.expiresInMins } : {})
-      }
+        ...(opts?.expiresInMins !== undefined ? { expiresInMins: opts.expiresInMins } : {}),
+      },
     })
   }
 }

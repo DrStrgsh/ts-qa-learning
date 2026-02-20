@@ -1,4 +1,5 @@
 import { ApiClient } from './apiClient'
+
 import type { Product, ProductsListResponse } from '../types/products'
 
 export class ProductsClient extends ApiClient {
